@@ -1,0 +1,39 @@
+Para crear nuestro proyecto Node, ejecuta el siguiente comando en tu terminal o línea de comandos:
+
+npm init -y
+
+crear la carpeta servidor y el archivo index dentro del la carpeta|
+usaremos express
+// server/index.js
+
+const express = require("express");
+
+const PORT = process.env.PORT || 3001;
+
+const app = express();
+
+app.listen(PORT, () => {
+  console.log(`Server listening on ${PORT}`);
+});
+
+
+
+Luego en nuestra terminal instalaremos Express como una dependencia para utilizar en nuestro proyecto:
+npm i express
+
+
+Luego de esto, crearemos un script en el archivo package.json que iniciará 
+la ejecución de nuestro servidor web con el comando npm start:
+
+// server/package.json
+
+...
+"scripts": {
+  "start": "node index.js"
+},
+...
+
+
+///////////// Toda la información esta en esat pagina:::
+https://www.freecodecamp.org/espanol/news/como-crear-una-aplicacion-react-con-un-backend-de-node-la-guia-completa/
+
