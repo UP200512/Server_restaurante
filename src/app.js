@@ -4,6 +4,13 @@ import productos from './routes/productos.routes.js';
 import tipos_de_usuarios from './routes/tipos_de_usuarios.routes.js';
 import insumos from './routes/insumos.routes.js'
 import unidades_de_medida from './routes/unidades_de_medida.routes.js';
+
+import productosRoutes from './routes/productos.routes.js';
+import detalle_pedidosRoutes from './routes/detalle_pedidos.routes.js'
+import detalle_productosRoutes from './routes/detalle_productos.routes.js'
+import pedidos from './routes/pedidos.routes.js'
+import tipos_de_insumo from './routes/tipos_de_insumo.routes.js'
+
 const app = express();
 // const path = require('node:path'); 
 //middleware
@@ -28,6 +35,12 @@ app.use('/api', productos);
 app.use('/api', tipos_de_usuarios);
 app.use('/api', insumos);
 app.use('/api', unidades_de_medida);
+
+app.use('/api', productosRoutes);
+app.use('/api', detalle_pedidosRoutes);
+app.use('/api', detalle_productosRoutes);
+app.use('/api', pedidos);
+app.use('/api', tipos_de_insumo);
 
 app.use((request, response, next) => {
     response.status(404).json({
