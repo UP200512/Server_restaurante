@@ -1,9 +1,11 @@
 import { Router } from "express";
-import { getPedidos, createPedidos, deletePedidos, updatePedidos} from '../controllers/pedidos.controllers.js';
+import { getPedido,getPedidos, createPedidos, deletePedidos, updatePedidos} from '../controllers/pedidos.controllers.js';
 
 const router = Router();
 
-router.get('/pedidos/:id', getPedidos); //listo
+router.get('/pedidos', getPedidos); //listo
+
+router.get('/pedidos/:id', getPedido); //listo
 
 router.post('/pedidos', createPedidos); //listo
 

@@ -1,6 +1,21 @@
 import { pool } from '../db.js'
-
 export const getPedidos = async (req, res) => {
+    try {
+        const id=req.params.id;
+        const [rows] = await pool.query('select * from pedidos');
+        if (rows.length<=0){
+            return res.status(400).json({message: "no encontrado"})
+        }
+        res.status(200).json(rows);
+    } catch (error) {
+        return res.status(500).json({
+            message: "something went wrong"
+        });
+    }
+}
+
+
+export const getPedido = async (req, res) => {
     try {
         const id=req.params.id;
         const [rows] = await pool.query('select * from pedidos where id_pedido = ?', id);
@@ -16,13 +31,12 @@ export const getPedidos = async (req, res) => {
 }
 
 export const createPedidos = async (req, res) => {
-    const {fecha, total} = req.body;
+    const {fecha, total, mesa} = req.body;
     try{
-        const [rows] = await pool.query('insert into pedidos (fecha, total) values (?,?)', [fecha, total])
+        const [rows] = await pool.query('insert into pedidos (fecha, total, mesa) values (?,?, ?)', [fecha, total, mesa])
         res.send( {
             id: rows.insertId,
-            fecha,
-            total
+            
         })
     } catch (error){
         return res.status(500).json({ message: 'Algo salio mal' })
