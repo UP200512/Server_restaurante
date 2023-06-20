@@ -1,3 +1,4 @@
+import cors from 'cors';
 import express from 'express';
 import indexRoutes from './routes/index.routes.js';
 import productos from './routes/productos.routes.js';
@@ -15,6 +16,8 @@ const app = express();
 // const path = require('node:path'); 
 //middleware
 app.use(express.json());
+
+app.use(cors());
 
 // Hacer que node sirva los archivos de nuestro app React
 // app.use(express.static(path.resolve(__dirname, '../client/build')));

@@ -1,5 +1,18 @@
 import { pool } from '../db.js'
 
+export const getTiposInsumos = async (req, res) => {
+    try {
+        const [rows] = await pool.query('select * from tipos_de_insumo');
+        if (rows.length<=0){
+            return res.status(400).json({message: "no encontrado"})
+        }
+        res.status(200).json(rows);
+    } catch (error) {
+        return res.status(500).json({
+            message: "something went wrong"
+        });
+    }
+}
 export const getTiposInsumo = async (req, res) => {
     try {
         const id=req.params.id;
