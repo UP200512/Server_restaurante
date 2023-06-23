@@ -33,7 +33,7 @@ export const getPedido = async (req, res) => {
 export const createPedidos = async (req, res) => {
     const {fecha, total, mesa} = req.body;
     try{
-        const [rows] = await pool.query('insert into pedidos (fecha, total, mesa) values (?,?, ?)', [fecha, total, mesa])
+        const [rows] = await pool.query('insert into pedidos (mesa) values ( ?)', [ mesa])
         res.send( {
             id: rows.insertId,
             

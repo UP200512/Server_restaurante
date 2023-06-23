@@ -11,6 +11,18 @@ export const getProductos = async (req, res) => {
         });
     }
 }
+export const getProductosbyName = async (req, res) => {
+    let nombre = req.params.nombre
+    nombre = '%' + nombre + '%'
+    try {
+        const [rows] = await pool.query('select * from productos_en_venta where nombre like ?', nombre);
+        res.status(200).json(rows);
+    } catch (error) {
+        return res.status(500).json({
+            message: "something went wrong"
+        });
+    }
+}
 
 export const getProducto = async (req, res) => {
     try {

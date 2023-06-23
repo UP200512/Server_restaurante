@@ -3,7 +3,7 @@ import { pool } from '../db.js'
 export const getDetallePedidos = async (req, res) => {
     try {
         const id=req.params.id;
-        const [rows] = await pool.query('select * from detalle_de_pedidos where id_detalle = ?', id);
+        const [rows] = await pool.query('select * from detalle_de_pedidos where id_pedido = ?', id);
         if (rows.length<=0){
             return res.status(400).json({message: "no encontrado"})
         }
@@ -18,13 +18,14 @@ export const getDetallePedidos = async (req, res) => {
 export const createDetallePedidos = async (req, res) => {
     const {id_detalle, id_pedido, id_producto, cantidad, precio_unitario} = req.body;
     try{
-        const [rows] = await pool.query('insert into detalle_de_pedidos (id_detalle, id_pedido, id_producto, cantidad, precio_unitario) select IFNULL(MAX(id_detalle), 0) + ?, ?, ?, ?, ? from detalle_de_pedidos where id_pedido = 1;', [id_detalle, id_pedido, id_producto, cantidad, precio_unitario])
+        const [rows] = await pool.query('insert into detalle_de_pedidos (id_detalle, id_pedido, id_producto, cantidad, precio_unitario) select IFNULL(MAX(id_detalle), 0) + ?, ?, ?, ?, ? from detalle_de_pedidos where id_pedido = ?;', [id_detalle, id_pedido, id_producto, cantidad, precio_unitario, id_pedido])
         res.status(200).json( {
             id_detalle,
             id_pedido,
             id_producto,
             cantidad,
-            precio_unitario
+            precio_unitario,
+            id_pedido
         })
     } catch (error){
         return res.status(500).json({ message: 'Algo salio mal' })
