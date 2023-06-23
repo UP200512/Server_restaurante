@@ -4,11 +4,12 @@ import productos from './routes/productos.routes.js';
 import tipos_de_usuarios from './routes/tipos_de_usuarios.routes.js';
 import insumos from './routes/insumos.routes.js'
 import unidades_de_medida from './routes/unidades_de_medida.routes.js';
+import cors from "cors"
 const app = express();
 // const path = require('node:path'); 
 //middleware
 app.use(express.json());
-
+app.use(cors());
 // Hacer que node sirva los archivos de nuestro app React
 // app.use(express.static(path.resolve(__dirname, '../client/build')));
 //rutas o endPoint

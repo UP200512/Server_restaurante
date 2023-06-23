@@ -29,9 +29,20 @@ export const getProducto = async (req, res) => {
     }
 }
 
-
-
-
+export const getProductoDetalle = async (req, res) => {
+    try {
+        const id=req.params.id;
+        const [rows] = await pool.query('select p.id_producto id_producto, d.id_detalle id_detalle, p.nombre nombre_producto, tp.nombre tipo_producto, i.id_insumo id_insumo, i.nombre nombre_insumo, ti.nombre tipo_insumo , d.cantidad cantidad, u.abreviacion abreviacion from productos_en_venta p inner join detalle_de_productos d on p.id_producto = d.id_producto inner join insumos i on i.id_insumo = d.id_insumo inner join tipo_de_producto tp on tp.id_tipo_prod = p.id_tipo_prod inner join tipos_de_insumo ti on ti.id_tipo = i.tipo_insumo_id inner join unidades_de_medida u on u.id_unidad = i.unidad_de_medida_id where p.id_producto = ?;', id);
+        if (rows.length<=0){
+            return res.status(400).json({message: "no encontrado"})
+        }
+        res.json(rows);
+    } catch (error) {
+        return res.status(500).json({
+            message: "something went wrong"
+        });
+    }
+}
 
 export const createProducto = async (req, res) =>{
     const {nombre, descripcion, precio} = req.body
