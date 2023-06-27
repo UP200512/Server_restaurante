@@ -1,8 +1,8 @@
 import { pool } from "../db.js";
 
-export const getTiposInsumos = async (req, res) => {
+export const getTiposProductos = async (req, res) => {
     try {
-        const [rows] = await pool.query('select * from tipos_de_insumo');
+        const [rows] = await pool.query('select * from tipo_de_producto');
         if (rows.length<=0){
             return res.status(400).json({message: "no encontrado"})
         }
@@ -13,11 +13,11 @@ export const getTiposInsumos = async (req, res) => {
         });
     }
 }
-export const getTiposInsumo = async (req, res) => {
+export const getTipoProductos = async (req, res) => {
   try {
     const id = req.params.id;
     const [rows] = await pool.query(
-      "select * from tipos_de_insumo where id_tipo = ?",
+      "select * from tipo_de_producto where id_tipo_prod = ?",
       id
     );
     if (rows.length <= 0) {
@@ -31,11 +31,11 @@ export const getTiposInsumo = async (req, res) => {
   }
 };
 
-export const createTiposInsumo = async (req, res) => {
+export const createTiposProductos = async (req, res) => {
   const { nombre } = req.body;
   try {
     const [rows] = await pool.query(
-      "insert into tipos_de_insumo (nombre) values (?)",
+      "insert into tipo_de_producto (nombre) values (?)",
       [nombre]
     );
     res.send({
@@ -47,10 +47,10 @@ export const createTiposInsumo = async (req, res) => {
   }
 };
 
-export const deleteTiposInsumo = async (req, res) => {
+export const deleteTiposProductos = async (req, res) => {
   // console.log(req.params.id);
   const id = req.params.id;
-  let sql = "delete from tipos_de_insumo where id_tipo = ?";
+  let sql = "delete from tipo_de_producto where id_tipo = ?";
   try {
     const [rows] = await pool.query(sql, [id]);
     res.status(200).json(rows);
@@ -59,11 +59,11 @@ export const deleteTiposInsumo = async (req, res) => {
   }
 };
 
-export const updateTiposInsumo = async (req, res) => {
+export const updateTiposProductos = async (req, res) => {
   const id = req.params.id;
   const { nombre } = req.body;
   let sql =
-    "update tipos_de_insumo set nombre=ifnull(?, nombre) where id_tipo = ?";
+    "update tipo_de_producto set nombre=ifnull(?, nombre) where id_tipo_prod = ?";
   try {
     console.log(id);
     const [rows] = await pool.query(sql, [nombre, id]);

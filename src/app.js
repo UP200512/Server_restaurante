@@ -11,7 +11,8 @@ import detalle_pedidosRoutes from './routes/detalle_pedidos.routes.js'
 import detalle_productosRoutes from './routes/detalle_productos.routes.js'
 import pedidos from './routes/pedidos.routes.js'
 import tipos_de_insumo from './routes/tipos_de_insumo.routes.js'
-import cors from 'cors'
+import tipos_de_producto from './routes/tipos_de_productos.routes.js'
+
 
 const app = express();
 // const path = require('node:path'); 
@@ -40,6 +41,7 @@ app.use('/api', detalle_pedidosRoutes);
 app.use('/api', detalle_productosRoutes);
 app.use('/api', pedidos);
 app.use('/api', tipos_de_insumo);
+app.use('/api', tipos_de_producto);
 
 app.use((request, response, next) => {
     response.status(404).json({

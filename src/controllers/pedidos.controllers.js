@@ -1,4 +1,5 @@
 import { pool } from '../db.js'
+
 export const getPedidos = async (req, res) => {
     try {
         const id=req.params.id;

@@ -3,7 +3,7 @@ import { pool } from '../db.js'
 
 export const getProductos = async (req, res) => {
     try {
-        const [rows] = await pool.query('select * from productos_en_venta');
+        const [rows] = await pool.query('select p.id_producto id_producto, p.nombre nombre, p.descripcion descripcion, p.precio precio, t.nombre tipo, t.id_tipo_prod id_tipo from productos_en_venta p left join tipo_de_producto t on p.id_tipo_prod = t.id_tipo_prod;');
         res.status(200).json(rows);
     } catch (error) {
         return res.status(500).json({
@@ -55,10 +55,21 @@ export const getProductoDetalle = async (req, res) => {
 }
 
 export const createProducto = async (req, res) =>{
-    const {nombre, descipcion, precio} = req.body
-    let sql = 'insert into productos_en_venta(nombre, descripcion, precio) values (?, ?, ?)'
+    const {nombre, descripcion, precio, id_tipo_prod} = req.body
+    let sql = 'insert into productos_en_venta(nombre, descripcion, precio, id_tipo_prod) values (?, ?, ?, ?)'
     try {
-        const [rows] = await pool.query(sql, [nombre, descipcion, precio])
+        const [rows] = await pool.query(sql, [nombre, descripcion, precio, id_tipo_prod])
+        res.status(200).json(rows)
+    } catch (error) {
+        return res.status(500).json({message: 'Algo va mal'})
+    }
+}
+
+export const createDetalleProducto = async (req, res) =>{
+    const {id_producto, id_insumo, cantidad} = req.body
+    let sql = 'insert into detalle_de_productos(id_producto, id_insumo, cantidad) values (?, ?, ?)'
+    try {
+        const [rows] = await pool.query(sql, [id_producto, id_insumo, cantidad])
         res.status(200).json(rows)
     } catch (error) {
         return res.status(500).json({message: 'Algo va mal'})
@@ -77,13 +88,39 @@ export const deleteProducto = async (req, res) =>{
     }
 }
 
+export const deleteProductoDetalle = async (req, res) =>{
+    // console.log(req.params.id);
+    const id_det = req.params.idd;
+    const id_prod = req.params.idp;
+    let sql = 'delete from detalle_de_productos where id_producto = ? and id_detalle = ?'
+    try {
+        const [rows] = await pool.query(sql, [id_prod, id_det])
+        res.status(200).json(rows)
+    } catch (error) {
+        return res.status(500).json({message: 'Algo va mal'})
+    }
+}
+
 
 export const updateProducto = async (req, res) =>{
     const id = req.params.id;
-    const {nombre, descipcion, precio} = req.body
-    let sql = 'update productos_en_venta set nombre=ifnull(?, nombre), descripcion=ifnull(?, descripcion), precio=ifnull(?, precio) where id_producto = ?'
+    const {nombre, id_tipo_prod, descripcion, precio } = req.body
+    let sql = 'update productos_en_venta set nombre=ifnull(?, nombre), descripcion=ifnull(?, descripcion), precio=ifnull(?, precio), id_tipo_prod=ifnull(?, id_tipo_prod) where id_producto = ?'
     try {
-        const [rows] = await pool.query(sql, [nombre, descipcion, precio, id])
+        const [rows] = await pool.query(sql, [nombre, descripcion, precio, id_tipo_prod, id])
+        res.status(200).json(rows)
+    } catch (error) {
+        return res.status(500).json({message: 'Algo va mal'})
+    }
+}
+
+export const updateProductoDetalle = async (req, res) =>{
+    const id_detalle = req.params.idd;
+    const id_producto = req.params.idp;
+    const { cantidad } = req.body
+    let sql = 'update detalle_de_productos set cantidad=ifnull(?, cantidad) where id_producto = ? and id_detalle = ?'
+    try {
+        const [rows] = await pool.query(sql, [cantidad, id_producto, id_detalle])
         res.status(200).json(rows)
     } catch (error) {
         return res.status(500).json({message: 'Algo va mal'})
