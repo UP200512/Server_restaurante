@@ -11,7 +11,7 @@ import detalle_pedidosRoutes from './routes/detalle_pedidos.routes.js'
 import detalle_productosRoutes from './routes/detalle_productos.routes.js'
 import pedidos from './routes/pedidos.routes.js'
 import tipos_de_insumo from './routes/tipos_de_insumo.routes.js'
-import cors from 'cors'
+// import cors from 'cors'
 
 const app = express();
 // const path = require('node:path'); 
