@@ -2,7 +2,7 @@ import { pool } from '../db.js'
 export const getPedidos = async (req, res) => {
     try {
         const id=req.params.id;
-        const [rows] = await pool.query('select * from pedidos');
+        const [rows] = await pool.query('select * from pedidos where activo=true order by id_pedido desc');
         if (rows.length<=0){
             return res.status(400).json({message: "no encontrado"})
         }

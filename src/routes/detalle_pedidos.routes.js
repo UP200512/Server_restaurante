@@ -1,9 +1,10 @@
 import { Router } from "express";
-import { getDetallePedidos, createDetallePedidos, deleteDetallePedidos, updateDetallePedidos} from '../controllers/detalle_pedidos.controllers.js';
+import { getDetallePedidos, createDetallePedidos, deleteDetallePedidos, updateDetallePedidos, getDetallesPedidos} from '../controllers/detalle_pedidos.controllers.js';
 
 const router = Router();
 
 // DETALLE DE PEDIDOS
+router.get('/detallePedidos/', getDetallesPedidos); //listo
 router.get('/detallePedidos/:id', getDetallePedidos); //listo
 
 router.post('/detallePedidos', createDetallePedidos); //listo
