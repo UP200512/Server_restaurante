@@ -1,5 +1,7 @@
 import { pool } from '../db.js'
 
+
+
 export const getDetalleProductos = async (req, res) => {
     try {
         const id=req.params.id;

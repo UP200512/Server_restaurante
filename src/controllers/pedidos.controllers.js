@@ -1,11 +1,12 @@
 import { pool } from '../db.js'
+
 export const getPedidos = async (req, res) => {
     try {
         const id=req.params.id;
-        const [rows] = await pool.query('select * from pedidos where activo=true order by id_pedido desc');
-        if (rows.length<=0){
-            return res.status(400).json({message: "no encontrado"})
-        }
+        const [rows] = await pool.query("select id_pedido, DATE_FORMAT(fecha, '%Y-%m-%d %T') as fecha, total, mesa, activo from pedidos where activo=true order by id_pedido desc");
+        // if (rows.length<=0){
+        //     return res.status(400).json({message: "no encontrado"})
+        // }
         res.status(200).json(rows);
     } catch (error) {
         return res.status(500).json({
