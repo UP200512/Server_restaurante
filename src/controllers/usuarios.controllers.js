@@ -1,5 +1,7 @@
 import { pool } from '../db.js'
-
+import jwt from "jsonwebtoken";
+import { SECRET } from "../config.js";
+import { ValidatePassword, encryptPassword } from '../funciones/usuarios.funciones.js';
 
 export const getUsuarios = async (req, res) => {
     try {
@@ -28,19 +30,16 @@ export const GetUsuario = async (req, res) => {
         });
     }
 }
-
-
-
-
-
 export const createUsuario = async (req, res) =>{
-    const {nombre, id_tipo_de_usuario, correo, clave} = req.body
-    let sql = 'insert into usuarios (nombre, id_tipo_usuario, correo, clave ) values (?, ?, ?, ?)'
+    let {nombre, tipo, email, clave} = req.body
+    let sql = 'insert into usuarios (nombre, email, clave ) values (?, ?, ?)'
+    clave=encryptPassword(clave)
     try {
-        const [rows] = await pool.query(sql, [nombre, id_tipo_de_usuario, correo, clave])
+        
+        const [rows] = await pool.query(sql, [nombre, email, clave])
         res.status(200).json(rows);
     } catch (error) {
-        return res.status(500).json({message: 'Algo va mal'})
+        return res.status(500).json({message: 'Algo va mal', codigo: error.message})
     }
 }
 
@@ -55,8 +54,6 @@ export const deleteUsuario= async (req, res) =>{
         return res.status(500).json({message: 'Algo va mal'})
     }
 }
-
-
 export const updateUsuario = async (req, res) =>{
     // console.log("hola")
     const id = req.params.id;
@@ -70,3 +67,21 @@ export const updateUsuario = async (req, res) =>{
         return res.status(500).json({message: 'Algo va mal'})
     }
 }
+// export const login = async (req, res) => {
+//     try {
+//       const { email, clave } = req.body;
+//       const sql = "select clave from usuarios where email = ?";
+//       const [rows] = await pool.query(sql, [email]);
+//       const EcPassword = rows[0].clave;
+//       // res.send(rows);
+//       if (ValidatePassword(EcPassword, clave)) {
+        
+//         let token =jwt.sign({email}, SECRET,{
+//           expiresIn: "7d"
+//         })
+//         res.status(200).json({auth: true, token});
+//       } else res.json({auth: false, message:"login incorrectamente"});
+//     } catch {
+//       return res.status(500).json({ message: "Algo va mal" });
+//     }
+//   };

@@ -22,7 +22,7 @@ export const getDetallePedidos = async (req, res) => {
       id
     );
     if (rows.length <= 0) {
-      return res.status(400).json({ message: "no encontrado" });
+      return res.status(200).json(rows);
     }
     // console.log(rows);
     res.status(200).json(rows);
@@ -48,7 +48,7 @@ export const createDetallePedidos = async (req, res) => {
 
     res.status(200).json(rows);
   } catch (error) {
-    // console.log(error);
+    console.log(error);
     return res.status(500).json({ message: "Algo salio mal", error });
   }
 };

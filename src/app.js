@@ -5,15 +5,15 @@ import productos from './routes/productos.routes.js';
 import tipos_de_usuarios from './routes/tipos_de_usuarios.routes.js';
 import insumos from './routes/insumos.routes.js'
 import unidades_de_medida from './routes/unidades_de_medida.routes.js';
-
+import usuariosRoutes from './routes/usuarios.routes.js'
 import productosRoutes from './routes/productos.routes.js';
 import detalle_pedidosRoutes from './routes/detalle_pedidos.routes.js'
 import detalle_productosRoutes from './routes/detalle_productos.routes.js'
 import pedidos from './routes/pedidos.routes.js'
 import tipos_de_insumo from './routes/tipos_de_insumo.routes.js'
 import tipos_de_producto from './routes/tipos_de_productos.routes.js'
-
-
+import login from './routes/login.routes.js'
+import { validarToken } from './controllers/login.controllers.js';
 const app = express();
 // const path = require('node:path'); 
 //middleware
@@ -26,13 +26,13 @@ app.use(cors());
 //     result.send({ minuculos: "hello world! npm en el puesto  <br> Hola adios" });
 // });
 
-app.get('/hola', (request, result) => {
-    // result.json({ minuculos: "hello world! npm en el puesto  <br> Hola adios" });
-    result.json({"palabra": "ayer y antier"});
-});
+app.use('/api/', login)
+// app.use(validarToken)
 
 app.use(indexRoutes);
 app.use('/api', productos);
+app.use('/api', usuariosRoutes);
+
 app.use('/api', tipos_de_usuarios);
 app.use('/api', insumos);
 app.use('/api', unidades_de_medida);
