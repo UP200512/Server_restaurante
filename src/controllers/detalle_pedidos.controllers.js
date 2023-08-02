@@ -36,10 +36,6 @@ export const getDetallePedidos = async (req, res) => {
 export const createDetallePedidos = async (req, res) => {
   const { id_pedido, id_producto, cantidad, precio_unitario } = req.body;
   try {
-    const [rows2] = await pool.query(
-      "update pedidos SET total=total + ? where id_pedido=?",
-      [precio_unitario * cantidad, id_pedido]
-    );
 
     const [rows] = await pool.query(
       "insert into detalle_de_pedidos (id_detalle, id_pedido, id_producto, cantidad, precio_unitario) select IFNULL(MAX(id_detalle), 0) + 1, ?, ?, ?, ? from detalle_de_pedidos where id_pedido = ?;",
@@ -47,6 +43,19 @@ export const createDetallePedidos = async (req, res) => {
     );
 
     res.status(200).json(rows);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Algo salio mal", error });
+  }
+};
+export const updateTotal = async (req, res, next) => {
+  const { id_pedido, cantidad, precio_unitario } = req.body;
+  try {
+    const [rows2] = await pool.query(
+      "update pedidos SET total=total + ? where id_pedido=?",
+      [precio_unitario * cantidad, id_pedido]
+    );
+    next()
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "Algo salio mal", error });
