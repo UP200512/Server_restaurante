@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getDetallePedidos, createDetallePedidos, deleteDetallePedidos, updateDetallePedidos, getDetallesPedidos} from '../controllers/detalle_pedidos.controllers.js';
+import { getDetallePedidos, createDetallePedidos, deleteDetallePedidos, updateDetallePedidos, getDetallesPedidos, updateTotal} from '../controllers/detalle_pedidos.controllers.js';
 
 const router = Router();
 
@@ -7,7 +7,7 @@ const router = Router();
 router.get('/detallePedidos/', getDetallesPedidos); //listo
 router.get('/detallePedidos/:id', getDetallePedidos); //listo
 
-router.post('/detallePedidos', createDetallePedidos); //listo
+router.post('/detallePedidos', updateTotal, createDetallePedidos); //listo
 
 router.delete('/detallePedidos/:id', deleteDetallePedidos); //listo
 
