@@ -1,11 +1,14 @@
 import { Router } from "express";
-import { getProductos, getProducto, createProducto, createDetalleProducto, deleteProducto, deleteProductoDetalle, updateProducto, updateProductoDetalle, getProductoDetalle } from '../controllers/productos.controllers.js';
+import path from 'path';
+import express from "express";
+import { getProductos, getProducto, getImagen, createProducto, createDetalleProducto, deleteProducto, deleteProductoDetalle, updateProducto, updateProductoDetalle, getProductoDetalle } from '../controllers/productos.controllers.js';
 const router = Router();
 
 //PRODUCTOS
 router.get('/productos', getProductos);
 router.get('/producto/:id', getProducto);
 router.get('/producto_detalle/:id', getProductoDetalle);
+router.get('/servir_imagen/:nombreImagen', getImagen);
 
 //router.get('/productos/:nombre', getProductosbyName);
 router.post('/productos', createProducto);

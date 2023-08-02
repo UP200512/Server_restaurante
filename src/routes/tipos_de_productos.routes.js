@@ -9,6 +9,7 @@ router.get('/tiposProductos/:id', getTipoProductos); //listo
 router.get('/tiposProductos', getTiposProductos); //listo
 router.post('/tiposProductos', createTiposProductos); //listo
 
+
 router.delete('/tiposProductos/:id', deleteTiposProductos); //listo
 
 router.patch('/tiposProductos/:id', updateTiposProductos); //listo

@@ -65,7 +65,7 @@ export const createTiposProductos = async (req, res) => {
 export const deleteTiposProductos = async (req, res) => {
   // console.log(req.params.id);
   const id = req.params.id;
-  let sql = "delete from tipo_de_producto where id_tipo = ?";
+  let sql = "delete from tipo_de_producto where id_tipo_prod = ?";
   try {
     const [rows] = await pool.query(sql, [id]);
     res.status(200).json(rows);
