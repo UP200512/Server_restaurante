@@ -12,6 +12,7 @@ import detalle_productosRoutes from './routes/detalle_productos.routes.js'
 import pedidos from './routes/pedidos.routes.js'
 import tipos_de_insumo from './routes/tipos_de_insumo.routes.js'
 import tipos_de_producto from './routes/tipos_de_productos.routes.js'
+// import tipos_de_producto from './routes/tipos_de_productos.routes.js'
 import subir_imagen from './controllers/subir_imagen.js'
 import path, {dirname} from 'path';
 import { fileURLToPath } from 'url';import login from './routes/login.routes.js'
@@ -57,6 +58,7 @@ app.use('/api', tipos_de_insumo);
 app.use('/api', tipos_de_producto);
 app.use('/api', pagos);
 app.use('/api', subir_imagen);
+app.use('/api', tipos_de_producto);
 
 app.use((request, response, next) => {
     response.status(404).json({
