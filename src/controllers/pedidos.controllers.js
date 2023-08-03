@@ -2,7 +2,7 @@ import { pool } from '../db.js'
 
 export const getPedidos = async (req, res) => {
     try {
-        const [rows] = await pool.query("select id_pedido, DATE_FORMAT(fecha, '%Y-%m-%d %T') as fecha, total, mesa, activo from pedidos where activo=true order by id_pedido desc");
+        const [rows] = await pool.query("select id_pedido, DATE_FORMAT(fecha, '%Y-%m-%d %T') as fecha, total, (select sum(p.total) from pagos p where p.id_pedido= ped.id_pedido) pagado, mesa, activo from pedidos ped where activo=true order by id_pedido desc");
         // if (rows.length<=0){
         //     return res.status(400).json({message: "no encontrado"})
         // }

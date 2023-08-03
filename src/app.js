@@ -12,7 +12,10 @@ import detalle_productosRoutes from './routes/detalle_productos.routes.js'
 import pedidos from './routes/pedidos.routes.js'
 import tipos_de_insumo from './routes/tipos_de_insumo.routes.js'
 import tipos_de_producto from './routes/tipos_de_productos.routes.js'
-import login from './routes/login.routes.js'
+// import tipos_de_producto from './routes/tipos_de_productos.routes.js'
+import subir_imagen from './controllers/subir_imagen.js'
+import path, {dirname} from 'path';
+import { fileURLToPath } from 'url';import login from './routes/login.routes.js'
 import pagos from './routes/pagos.routes.js'
 import { validarToken } from './controllers/login.controllers.js';
 const app = express();
@@ -20,6 +23,16 @@ const app = express();
 //middleware
 app.use(express.json());
 app.use(cors());
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+console.log(__dirname)
+
+//const rutaImagenes = path.join(dirname, './src/images/images');
+//app.use(express.static(rutaImagenes));
+
+
 // Hacer que node sirva los archivos de nuestro app React
 // app.use(express.static(path.resolve(__dirname, '../client/build')));
 //rutas o endPoint
@@ -44,6 +57,8 @@ app.use('/api', pedidos);
 app.use('/api', tipos_de_insumo);
 app.use('/api', tipos_de_producto);
 app.use('/api', pagos);
+app.use('/api', subir_imagen);
+app.use('/api', tipos_de_producto);
 
 app.use((request, response, next) => {
     response.status(404).json({
