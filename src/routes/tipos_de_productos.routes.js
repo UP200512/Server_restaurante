@@ -1,13 +1,14 @@
 import { Router } from "express";
-import { getTiposProductos, createTiposProductos, deleteTiposProductos, updateTiposProductos, getTipoProductos} from '../controllers/tipos_de_producto.controllers.js';
+import { getTiposProductos, getTiposProductosMaxId, createTiposProductos, deleteTiposProductos, updateTiposProductos, getTipoProductos} from '../controllers/tipos_de_producto.controllers.js';
 
 const router = Router();
 
 router.get('/', getTiposProductos); //listo
-
+router.get('/tiposProductosMaxId', getTiposProductosMaxId); //listo
 router.get('/tiposProductos/:id', getTipoProductos); //listo
 router.get('/tiposProductos', getTiposProductos); //listo
 router.post('/tiposProductos', createTiposProductos); //listo
+
 
 router.delete('/tiposProductos/:id', deleteTiposProductos); //listo
 
