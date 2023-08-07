@@ -3,7 +3,7 @@ import { getTiposInsumo, createTiposInsumo, deleteTiposInsumo, updateTiposInsumo
 
 const router = Router();
 
-router.get('/tiposInsumos', getTiposInsumos); //listo
+router.get('/tiposInsumo', getTiposInsumos); //listo
 
 router.get('/tiposInsumo/:id', getTiposInsumo); //listo
 router.get('/tiposInsumo', getTiposInsumos); //listo

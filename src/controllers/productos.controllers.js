@@ -77,7 +77,7 @@ export const getProductoDetalle = async (req, res) => {
     }
 }
 
-export const createProducto = async (req, res) => {
+/*export const createProducto = async (req, res) => {
     const { nombre, descripcion, precio, id_tipo_prod, prioridad, nombre_tipo } = req.body
 
     if (nombre_tipo) {
@@ -97,9 +97,26 @@ export const createProducto = async (req, res) => {
     } catch (error) {
         return res.status(500).json({ message: 'Algo va mal' })
     }
-}
+}*/
 
-export const updateProducto = async (req, res) => {
+export const createProducto = async (req, res) => {
+    const { nombre, descripcion, precio, id_tipo_prod, prioridad, nombre_tipo } = req.body;
+
+    try {
+        if (nombre_tipo) {
+            let sql1 = 'insert into tipo_de_producto (id_tipo_prod, nombre) values (?, ?)';
+            await pool.query(sql1, [id_tipo_prod, nombre_tipo]);
+        }
+
+        let sql = 'insert into productos_en_venta(nombre, descripcion, precio, id_tipo_prod, prioridad) values (?, ?, ?, ?, ?)';
+        const [rows] = await pool.query(sql, [nombre, descripcion, precio, id_tipo_prod, prioridad]);
+        res.status(200).json(rows);
+    } catch (error) {
+        return res.status(500).json({ message: 'Algo va mal' });
+    }
+};
+
+/*export const updateProducto = async (req, res) => {
     const id = req.params.id;
     const { nombre, id_tipo_prod, descripcion, precio, prioridad, nombre_tipo } = req.body
 
@@ -120,7 +137,26 @@ export const updateProducto = async (req, res) => {
     } catch (error) {
         return res.status(500).json({ message: 'Algo va mal' })
     }
-}
+}*/
+
+export const updateProducto = async (req, res) => {
+    const id = req.params.id;
+    const { nombre, id_tipo_prod, descripcion, precio, prioridad, nombre_tipo } = req.body
+
+    try {
+        if (nombre_tipo) {
+            let sql1 = 'insert into tipo_de_producto (id_tipo_prod, nombre) values (?, ?)';
+            await pool.query(sql1, [id_tipo_prod, nombre_tipo]);
+        }
+
+        let sql = 'update productos_en_venta set nombre=ifnull(?, nombre), descripcion=ifnull(?, descripcion), precio=ifnull(?, precio), id_tipo_prod=ifnull(?, id_tipo_prod), prioridad=ifnull(?, prioridad) where id_producto = ?';
+        const [rows] = await pool.query(sql, [nombre, descripcion, precio, id_tipo_prod, prioridad, id]);
+        res.status(200).json(rows);
+    } catch (error) {
+        return res.status(500).json({ message: 'Algo va mal' });
+    }
+};
+
 
 export const createDetalleProducto = async (req, res) => {
     const { id_producto, id_insumo, cantidad } = req.body

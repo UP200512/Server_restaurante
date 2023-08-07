@@ -30,11 +30,24 @@ export const GetInsumo = async (req, res) => {
   }
 };
 
+export const createInsumo = async (req, res) => {
+    const { nombre, tipo_insumo_id, unidad_de_medida_id, descripcion, cantidad, nombre_tipo } = req.body;
 
+    try {
+        if (nombre_tipo) {
+            let sql1 = 'insert into tipos_de_insumo (id_tipo, nombre) values (?, ?)';
+            await pool.query(sql1, [tipo_insumo_id, nombre_tipo]);
+        }
 
+        let sql = 'insert into insumos (nombre, tipo_insumo_id, unidad_de_medida_id, descripcion, cantidad ) values (?, ?, ?, ?, ?)';
+        const [rows] = await pool.query(sql, [nombre, tipo_insumo_id, unidad_de_medida_id, descripcion, cantidad]);
+        res.status(200).json(rows);
+    } catch (error) {
+        return res.status(500).json({ message: 'Algo va mal' });
+    }
+};
 
-
-export const createInsumo = async (req, res) =>{
+/*export const createInsumo = async (req, res) =>{
     const {nombre, tipo_insumo_id, unidad_de_medida_id, descripcion, cantidad} = req.body
     let sql = 'insert into insumos (nombre, tipo_insumo_id, unidad_de_medida_id, descripcion, cantidad ) values (?, ?, ?, ?, ?)'
     try {
@@ -43,7 +56,7 @@ export const createInsumo = async (req, res) =>{
     } catch (error) {
         return res.status(500).json({message: 'Algo va mal'})
     }
-}
+}*/
 
 export const deleteInsumo = async (req, res) =>{
     // console.log(req.params.id);
@@ -60,7 +73,7 @@ export const deleteInsumo = async (req, res) =>{
 }
 
 
-export const updateInsumo = async (req, res) =>{
+/*export const updateInsumo = async (req, res) =>{
     const id = req.params.id;
     const {nombre, tipo_de_insumo_id, unidad_de_medida_id, descripcion, cantidad} = req.body
     let sql = 'update insumos set nombre = ifnull(?, nombre), tipo_insumo_id= ifnull(?, tipo_insumo_id), unidad_de_medida_id= ifnull(?, unidad_de_medida_id), descripcion=ifnull(?, descripcion), cantidad=ifnull(?, cantidad) where id_insumo = ?'
@@ -70,4 +83,21 @@ export const updateInsumo = async (req, res) =>{
     } catch (error) {
         return res.status(500).json({message: 'Algo va mal'})
     }
-}
+}*/
+
+export const updateInsumo = async (req, res) => {
+    const id = req.params.id;
+    const { nombre, tipo_insumo_id, unidad_de_medida_id, descripcion, cantidad, nombre_tipo } = req.body
+    try {
+        if (nombre_tipo) {
+            let sql1 = 'insert into tipos_de_insumo (id_tipo, nombre) values (?, ?)';
+            await pool.query(sql1, [tipo_insumo_id, nombre_tipo]);
+        }
+
+        let sql = 'update insumos set nombre = ifnull(?, nombre), tipo_insumo_id= ifnull(?, tipo_insumo_id), unidad_de_medida_id= ifnull(?, unidad_de_medida_id), descripcion=ifnull(?, descripcion), cantidad=ifnull(?, cantidad) where id_insumo = ?';
+        const [rows] = await pool.query(sql, [nombre, tipo_insumo_id, unidad_de_medida_id, descripcion, cantidad, id]);
+        res.status(200).json(rows);
+    } catch (error) {
+        return res.status(500).json({ message: 'Algo va mal' });
+    }
+};
