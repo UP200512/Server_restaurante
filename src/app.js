@@ -13,6 +13,7 @@ import pedidos from './routes/pedidos.routes.js'
 import tipos_de_insumo from './routes/tipos_de_insumo.routes.js'
 import tipos_de_producto from './routes/tipos_de_productos.routes.js'
 import login from './routes/login.routes.js'
+import estadisticas from './routes/01_Estadisticas.routes.js'
 import { validarToken } from './controllers/login.controllers.js';
 const app = express();
 // const path = require('node:path'); 
@@ -40,6 +41,7 @@ app.use('/api', productosRoutes);
 app.use('/api', detalle_pedidosRoutes);
 app.use('/api', detalle_productosRoutes);
 app.use('/api', pedidos);
+app.use('/api', estadisticas);
 app.use('/api', tipos_de_insumo);
 app.use('/api', tipos_de_producto);
 
